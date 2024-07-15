@@ -6,14 +6,19 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
 
-    @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public UserDaoImp(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void add(User user) {
@@ -21,10 +26,11 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+
     public List<User> listUsers() {
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
-        return query.getResultList();
+        return sessionFactory.getCurrentSession()
+                .createQuery("from User", User.class)
+                .getResultList();
     }
 
     @Override
@@ -33,11 +39,16 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public List<User> findUserByCar(String model, int series) {
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User where car.model= :paramModel and car.series= :paramSeries");
+    public User findUserByModelAndSeries(String model, int series) {
+        TypedQuery<User> query = sessionFactory.getCurrentSession()
+                .createQuery("from User where car.model = :paramModel and car.series = :paramSeries", User.class);
         query.setParameter("paramModel", model);
         query.setParameter("paramSeries", series);
-        return query.getResultList();
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // или можно выбросить свое кастомное исключение
+        }
     }
 
 

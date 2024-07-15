@@ -21,27 +21,15 @@ public class MainApp {
         Car car3 = new Car(2, "MAZDA");
         Car car4 = new Car(3, "BMW");
 
-        User user1 = new User("Artem", "Sigitov", "art200119@gmail.com");
-        User user2 = new User("Alex", "WW", "@gmail.com");
-        User user3 = new User("Max", "Smirnov", "aer@gmail.com");
-        User user4 = new User("Andrey", "Ivanov", "kx@gmail.com");
+        User user1 = new User("Artem", "Sigitov", "art200119@gmail.com", car1);
+        User user2 = new User("Alex", "WW", "@gmail.com", car2);
+        User user3 = new User("Max", "Smirnov", "aer@gmail.com", car3);
+        User user4 = new User("Andrey", "Ivanov", "kx@gmail.com", car4);
 
-//      userService.add(new User("User1", "Lastname1", "user1@mail.ru"));
-//      userService.add(new User("User2", "Lastname2", "user2@mail.ru"));
-//      userService.add(new User("User3", "Lastname3", "user3@mail.ru"));
-//      userService.add(new User("User4", "Lastname4", "user4@mail.ru"));
-//
-        userService.linkUserToCar(user1, car1);
-        userService.linkUserToCar(user2, car2);
-        userService.linkUserToCar(user3, car3);
-        userService.linkUserToCar(user4, car4);
-
-
-//      userService.add(new Car(1,"Mazda"));
-//      userService.add(new Car(2,"BMW"));
-//      userService.add(new Car(2,"MAZDA"));
-//      userService.add(new Car(3,"BMW"));
-
+        userService.add(user1);
+        userService.add(user2);
+        userService.add(user3);
+        userService.add(user4);
 
         List<User> users = userService.listUsers();
         for (User user : users) {
@@ -53,10 +41,7 @@ public class MainApp {
             System.out.println();
         }
 
-        List<User> usersMazda = userService.findUserByCar("Mazda", 2);
-        for (User user : usersMazda) {
-            System.out.println(user.getId() + " Имеет мазду 3 серии");
-        }
+        System.out.println(userService.findUserByModelAndSeries("Mazda", 2));
 
         context.close();
     }

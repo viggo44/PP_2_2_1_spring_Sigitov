@@ -10,8 +10,6 @@ public interface UserService {
     List<User> listUsers();
 
     void add (Car car);
-    List<User> findUserByCar(String model, int series);
-
-    public void linkUserToCar(User user, Car car);
+    User findUserByModelAndSeries(String model, int series);
 
 }

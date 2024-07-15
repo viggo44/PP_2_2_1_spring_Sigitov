@@ -12,39 +12,35 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService {
 
-   @Autowired
-   private UserDao userDao;
+    private UserDao userDao;
 
-   @Transactional
-   @Override
-   public void add(User user) {
-      userDao.add(user);
-   }
+    @Autowired
+    public UserServiceImp(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
-   @Transactional(readOnly = true)
-   @Override
-   public List<User> listUsers() {
-      return userDao.listUsers();
-   }
+    @Transactional
+    @Override
+    public void add(User user) {
+        userDao.add(user);
+    }
 
-   @Transactional
-   @Override
-   public void add(Car car){
-      userDao.add(car);
-   }
+    @Transactional(readOnly = true)
+    @Override
+    public List<User> listUsers() {
+        return userDao.listUsers();
+    }
 
-   @Transactional(readOnly = true)
-   @Override
-   public List<User> findUserByCar(String model, int series) {
-      return userDao.findUserByCar(model, series);
-   }
+    @Transactional
+    @Override
+    public void add(Car car) {
+        userDao.add(car);
+    }
 
-   @Transactional()
-   public void linkUserToCar(User user, Car car) {
-      car.setUser(user);
-      user.setCar(car);
-      add(user);
-   }
-
+    @Transactional()
+    @Override
+    public User findUserByModelAndSeries(String model, int series) {
+        return userDao.findUserByModelAndSeries(model, series);
+    }
 
 }
